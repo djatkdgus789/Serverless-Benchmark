@@ -1,6 +1,6 @@
 import datetime, json, os, uuid
 from time import time
-import torch
+import shutil
 
 tmp = '/dev/shm/'
 
@@ -14,9 +14,7 @@ def lambda_handler(event, ctx):
 
     ts1 = time()
 
-    x = torch.rand(2, 3)
-
-    print(x)
+    print(shutil.__version__)
 
     ts2 = time()
 

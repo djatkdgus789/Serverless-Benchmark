@@ -5,7 +5,7 @@ kernel_path="/home/ssl/vanilla-kernel/vmlinux"
 socket_path=/tmp/firecracker-${index}.socket 
 snapshot_path=/mnt/nvme1/snapshot/framework-runtime-template-sandbox/snapshot_file
 mem_file_path=/mnt/nvme1/snapshot/framework-runtime-template-sandbox/mem_file
-
+HOST_IP=10.20.18.215
 sync;
 echo 3 > /proc/sys/vm/drop_caches 
 
@@ -30,8 +30,8 @@ sudo curl --unix-socket $socket_path -i \
     "state": "Resumed"
 }'
 
-echo -e "\n Recognition invocation"
-sudo curl --max-time 100 --request POST 'http://192.168.0.3:5000/invoke?function=image&redishost=10.20.18.215&redispasswd=s$l0407' \
+echo "\n Recognition invocation"
+sudo curl --max-time 10 --request POST "http://192.168.0.3:5000/invoke?function=recognition&redishost=$HOST_IP&redispasswd=s\$l0407" \
 	--header 'Content-Type: application/json' \
 	--data-raw '{
 	"model_object_key":"resnet50-19c8e357.pth",

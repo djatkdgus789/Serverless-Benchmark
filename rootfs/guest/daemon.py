@@ -61,18 +61,15 @@ def function(*args):
     if funcname == 'compression':
         import compression_handler
         return compression_handler.lambda_handler(request_args, {'r':r})
-    if funcname == 'recognition':
-        import recognition_handler
-        return recognition_handler.lambda_handler(request_args, {'r':r})
+    if funcname == 'resnet50':
+        import resnet50_handler
+        return resnet50_handler.lambda_handler(request_args, {'r':r})
     if funcname == 'pagerank':
         import pagerank_handler
         return pagerank_handler.lambda_handler(request_args, {'r':r})
     if funcname == 'resnext50':
         import resnext50_handler
         return resnext50_handler.lambda_handler(request_args, {'r':r})
-    if funcname == 'torch':
-        import torch_handler
-        return torch_handler.lambda_handler(request_args, {'r':r})
     if funcname == 'mst':
         import mst_handler
         return mst_handler.lambda_handler(request_args, {'r':r})
@@ -92,6 +89,39 @@ def function(*args):
         subprocess.run(request_args['args'], shell=True, check=True)
         ts2 = time.time()
         return [ts1, ts2]
+    
+    # framework template
+    if funcname == 'torch':
+        import torch_handler
+        return torch_handler.lambda_handler(request_args, {'r':r})
+    if funcname == 'numpy':
+        import numpy_handler
+        return numpy_handler.lambda_handler(request_args, {'r':r})
+    if funcname == 'pyaes':
+        import pyaes_handler
+        return pyaes_handler.lambda_handler(request_args, {'r':r})
+    if funcname == 'scikit-learn':
+        import scikit_handler
+        return scikit_handler.lambda_handler(request_args, {'r':r})
+    if funcname == 'igraph':
+        import igraph_handler
+        return igraph_handler.lambda_handler(request_args, {'r':r})
+    if funcname == 'torchvision':
+        import torchvision_handler
+        return torchvision_handler.lambda_handler(request_args, {'r':r})
+    if funcname == 'pillow':
+        import pillow_handler
+        return pillow_handler.lambda_handler(request_args, {'r':r})
+    if funcname == 'shutil':
+        import shutil_handler
+        return shutil_handler.lambda_handler(request_args, {'r':r})
+    # if funcname == '':
+    #     import _handler
+    #     return _handler.lambda_handler(request_args, {'r':r})
+
+
+
+
     raise RuntimeError('unknown function')
 
 @app.route('/')

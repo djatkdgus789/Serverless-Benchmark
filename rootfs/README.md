@@ -15,3 +15,16 @@ The following functions are from [SeBS](https://github.com/spcl/serverless-bench
 The following functions are from Sheom.
 - MST
 - BFS
+
+Waiting for Adding [ToDo]
+- recognition -> cnn_serving
+- float operation
+- NLP or language model serving (gpt2_xl)
+- linpack
+- mapreduce (chaining)
+- mmap 
+- model_training
+- video_face_detection
+- video_processing
+  
+refer https://github.com/djatkdgus789/ITRC/tree/main/function-rootfs

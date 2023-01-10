@@ -1,6 +1,6 @@
 import datetime, json, os, uuid
 from time import time
-import torch
+import PIL
 
 tmp = '/dev/shm/'
 
@@ -13,8 +13,8 @@ def lambda_handler(event, ctx):
     r = ctx['r']
 
     ts1 = time()
-
-    x = torch.rand(2, 3)
+    
+    print(PIL.__version__)
 
     print(x)
 

@@ -1,15 +1,16 @@
 #/bin/bash
 
-#if [ $# -ne 1 ]; then
-#	echo "[USAGE] [Appcation name]"
-#	exit 1
-#fi
+if [ $# -ne 1 ]; then
+	echo "[USAGE] [Appcation name]"
+	exit 1
+fi
 
-# of VM
-#func=$1
+of VM
+func=$1
+
 index=1
 
-## for control bash
+# for control bash
 BENCH_PATH="/home/ssl/Serverless-Benchmark"
 
 # This Should be NVMe SSD
@@ -19,6 +20,7 @@ kernel_path="/home/ssl/vanilla-kernel/vmlinux"
 socket_path=/tmp/firecracker-${index}.socket 
 snapshot_path=/mnt/nvme1/snapshot/language-runtime-template-sandbox/snapshot_file
 mem_file_path=/mnt/nvme1/snapshot/language-runtime-template-sandbox/mem_file
+
 
 echo "setting Base Kernel"
 curl --unix-socket $socket_path -i \
