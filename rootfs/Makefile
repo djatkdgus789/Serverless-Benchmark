@@ -14,6 +14,7 @@ debian-provisioned-rootfs.ext4: debian-base-rootfs.ext4 scripts/provision-debian
 
 debian-rootfs.ext4: debian-provisioned-rootfs.ext4 scripts/ready-debian-rootfs.sh $(GUESTFILES)
 	scripts/ready-debian-rootfs.sh # install functions
+	cp *.ext4 /mnt/nvme1/rootfs/
 
 alpinefs.ext4: alpine/alpine-rootfs.sh
 	cd alpine/ && ./alpine-rootfs.sh
