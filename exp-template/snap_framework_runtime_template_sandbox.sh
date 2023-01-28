@@ -152,8 +152,8 @@ then
 
 elif [ $framework = 'torchvision' ]
 then
-    echo -e "\nTorch invocation"
-    sudo curl --max-time 10 --request POST "http://192.168.0.3:5000/invoke?function=torch&redishost=$HOST_IP&redispasswd=s\$l0407" \
+    echo -e "\nTorchvision invocation"
+    sudo curl --max-time 10 --request POST "http://192.168.0.3:5000/invoke?function=torchvision&redishost=$HOST_IP&redispasswd=s\$l0407" \
 	    --header 'Content-Type: application/json' \
 	    --data-raw '{
                     }'

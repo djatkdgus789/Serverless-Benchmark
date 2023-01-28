@@ -80,7 +80,7 @@ curl --unix-socket $socket_path -i \
 
 
 echo -e "\n Recognition invocation"
-sudo curl --max-time 10 --request POST 'http://192.168.0.3:5000/invoke?function=recognition&redishost=10.20.18.215&redispasswd=s$l0407' \
+sudo curl --max-time 10 --request POST 'http://192.168.0.3:5000/invoke?function=resnet50&redishost=10.20.18.215&redispasswd=s$l0407' \
 	--header 'Content-Type: application/json' \
 	--data-raw '{
 	"model_object_key":"resnet50-19c8e357.pth",

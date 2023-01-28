@@ -31,8 +31,8 @@ sudo curl --unix-socket $socket_path -i \
     "state": "Resumed"
 }'
 
-echo -e "\n Recognition invocation"
-sudo curl --max-time 100 --request POST 'http://192.168.0.3:5000/invoke?function=image&redishost=10.20.18.215&redispasswd=s$l0407' \
+echo -e "\n resnet50 invocation"
+sudo curl --max-time 100 --request POST 'http://192.168.0.3:5000/invoke?function=resnet50&redishost=10.20.18.215&redispasswd=s$l0407' \
 	--header 'Content-Type: application/json' \
 	--data-raw '{
 	"model_object_key":"resnet50-19c8e357.pth",

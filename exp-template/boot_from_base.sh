@@ -34,7 +34,7 @@ curl --unix-socket $socket_path -i \
     -H "Content-Type: application/json" \
     -d "{
         \"vcpu_count\": 2,
-        \"mem_size_mib\": 1024,
+        \"mem_size_mib\": 2048,
         \"track_dirty_pages\": true
     }"
 

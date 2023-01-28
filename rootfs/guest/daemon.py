@@ -94,7 +94,7 @@ def function(*args):
     if funcname == 'torch':
         import torch_handler
         return torch_handler.lambda_handler(request_args, {'r':r})
-    if funcname == 'numpy':
+    if funcname == 'numpy': # error
         import numpy_handler
         return numpy_handler.lambda_handler(request_args, {'r':r})
     if funcname == 'pyaes':
