@@ -1,5 +1,6 @@
 import redis
 
+#r = redis.Redis(host='10.20.18.215', port=6379, db=0,password="s$l0407")
 r = redis.Redis(host='10.20.18.215', port=6379, db=0,password="s$l0407")
 #r = redis.Redis(host='localhost', port=6379, db=0,password="s$l0407")
 

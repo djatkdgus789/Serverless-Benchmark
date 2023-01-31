@@ -19,3 +19,8 @@ it will take a long time...
 - Run `prep.sh`. 
 
 ## Setup Redis
+## Prepare input data and Redis
+1. Download ResNet model [resnet50-19c8e357.pth](https://github.com/fregu856/deeplabv3/blob/master/pretrained_models/resnet/resnet50-19c8e357.pth) to `resources/recognition`.
+1. Start a local Redis instance on the default port 6379.
+1. Populate Redis with files in `resources` directory and its subdirectory. The keys should be the last parts of filenames (`basename`).
+
