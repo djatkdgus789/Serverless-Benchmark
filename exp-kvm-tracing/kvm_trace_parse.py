@@ -1,66 +1,52 @@
 from parse import *
 
+start_time = 0
+end_time = 0
 pf_time = 0
-cpu_active = 0
-cpu_sleep = 0
-start = 0
-finish = 1
-reason = ""
+cpu = [] 
 
-f = open("./kvm.trace", 'r')
+# timestamp in <secs>.<usecs> format
+#f = open("./recognition_ssd.trace", 'r')
+#f = open("./recognition_nvme.trace", 'r')
+
+#f = open("./recognition_dcpm.trace", 'r')
 while True:
     line = f.readline()
     if not line: break
 
+    if 'restart' in line:
+        # fc_vcpu 0-552219  [040] .... 97836.519114: kvm_userspace_exit: reason restart (4)
+        if start_time == 0:
+            result = parse("       fc_vcpu {no}-{} [{}] {} {sec}.{micro}: kvm_userspace_exit: {}", line)
+            start_time = int(result['sec']) * 1000000 + int(result['micro'])
+        elif end_time == 0:
+            result = parse("       fc_vcpu {no}-{} [{}] {} {sec}.{micro}: kvm_userspace_exit: {}", line)
+            end_time = int(result['sec']) * 1000000 + int(result['micro'])
+            
+
     if 'fc_vcpu 0' in line:
-        if 'kvm_entry' in line and finish == 0:
+        if 'kvm_entry' in line:
             #fc_vcpu 0-2779478 [077] d... 1820822.383974: kvm_entry: vcpu 0
-            result = parse("       fc_vcpu {}-{} [{}] {} {sec}.{micro}: kvm_entry: {}", line)
-            if finish == 0:
-                finish = int(result['sec']) * 1000000 + int(result['micro'])
-                elasped_time = (finish - start)
-                if elasped_time < 0:
-                    print("elasped_time: {}".format(elasped_time))
-                    print("finish: {}".format(finish))
-                    print("start: {}".format(start))
-                    print(line)
+            result = parse("       fc_vcpu {no}-{} [{}] {} {sec}.{micro}: kvm_entry: {}", line)
+            cpu_active = {'start': int(result['sec']) * 1000000 + int(result['micro']), 'end': 0, 'reason':''}
+            cpu.append(cpu_active)
 
-
-                else :
-                    cpu_sleep += elasped_time
-
-            else:
-                print("Error")
 
         if 'kvm_exit' in line:
             #fc_vcpu 0-2779478 [077] .... 1820822.383989: kvm_exit: vcpu 0 reason EPT_VIOLATION rip 0x5a1b20 info 384 0
-            result = parse("       fc_vcpu {}-{} [{}] {} {sec}.{micro}: kvm_exit: {} reason {reason} rip {}", line)
+            result = parse("       fc_vcpu {no}-{} [{}] {} {sec}.{micro}: kvm_exit: {} reason {reason} rip {}", line)
             # if result['reason'] == 'EPT_VIOLATION':
-            #     start = int(result['sec']) * 1000000 + int(result['micro'])
-            #     finish = 0
             reason = result['reason']
-            start = int(result['sec']) * 1000000 + int(result['micro'])
-            finish = 0
-            
-
-
-        if 'kvm_vcpu_wakeup' in line:
-            #fc_vcpu 0-2779478 [076] .... 1820822.384342: kvm_vcpu_wakeup: wait time 91252 ns, polling valid
-            result = parse("       fc_vcpu {}-{} [{}] {} {}.{}: {kvm_state}: {} time {kvm_vcpu_wakeup} ns, {}", line)
-            #print(line)
-            sleep = result['kvm_vcpu_wakeup']
-            pf_time += int(sleep)
+            if cpu[-1]['end'] == 0:
+                cpu[-1]['reason'] = reason
+                cpu[-1]['end'] = int(result['sec']) * 1000000 + int(result['micro'])
+            else:
+                print("vcpu exit가 더 빠름")
 
 f.close()
 
-print("CPU active time: {}us".format(cpu_active))
-print("CPU active time: {}ms".format(cpu_active * 0.001))
-# print("CPU sleep time: {}us".format(cpu_sleep* 100))
-# print("CPU sleep time: {}ms".format(cpu_sleep * 0.001 * 100))
+for cpu_active in cpu:
+    cpu_active['start'] = (cpu_active['start'] - start_time)
+    cpu_active['end'] = (cpu_active['end'] - start_time)
 
-print("CPU sleep time: {}us".format(cpu_sleep))
-print("CPU sleep time: {}ms".format(cpu_sleep * 0.001))
-
-
-print("kvm_vcpu_wakeup time: {}us".format(pf_time * 0.001))
-print("kvm_vcpu_wakeup time: {}ms".format(pf_time * 0.001 * 0.001))
+print(cpu)
